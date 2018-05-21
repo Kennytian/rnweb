@@ -1,10 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Platform,
   StyleSheet,
@@ -12,12 +6,12 @@ import {
   ListView,
   Image,
   Dimensions,
-  View
+  View,
 } from 'react-native';
 
 // 屏幕长宽
-const screenW = Dimensions.get('window').width;
-const screenH = Dimensions.get('window').height;
+const { width, height } = Dimensions.get('window').width;
+
 // iPhoneX
 const X_WIDTH = 375;
 const X_HEIGHT = 812;
@@ -27,64 +21,22 @@ const X_HEIGHT = 812;
  */
 function isIphoneX() {
   return Platform.OS === 'ios' &&
-    (
-      (screenH === X_HEIGHT && screenW === X_WIDTH) ||
-      (screenH === X_WIDTH && screenW === X_HEIGHT)
-    )
+    ((height === X_HEIGHT && width === X_WIDTH) || (height === X_WIDTH && width === X_HEIGHT));
 }
 
 const containerTop = Platform.select({
   ios: isIphoneX() ? 44 : 20,
   android: 0,
   web: 0,
-})
+});
+
 const containerBottom = Platform.select({
   ios: isIphoneX() ? 34 : 0,
   android: 0,
   web: 0,
-})
+});
 
-const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-export default class App extends Component {
-  state = {
-    list: ds.cloneWithRows(new Array(20).fill({
-      name: '炒鸡好吃的甜甜圈',
-      source: require('../assets/img_01.png'),
-      spec: '25g',
-      price: '￥4.4',
-    },))
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <ListView
-          style={{flex: 1}}
-          dataSource={this.state.list}
-          renderRow={(rowData) => (
-            <View style={styles.listItem}>
-              <Image style={styles.img} source={rowData.source}/>
-              <View style={styles.introduction}>
-                <Text style={styles.name}>
-                  {rowData.name}
-                </Text>
-                <Text style={styles.spec}>
-                  {`规格：${rowData.spec}`}
-                </Text>
-                <Text style={styles.price}>
-                  {rowData.price}
-                </Text>
-              </View>
-              <View style={styles.add}>
-                <Text style={styles.addIcon}>+</Text>
-              </View>
-            </View>
-          )}
-        />
-      </View>
-    );
-  }
-}
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 const styles = StyleSheet.create({
   container: {
@@ -143,6 +95,40 @@ const styles = StyleSheet.create({
   },
   welcome: {
     fontSize: 24,
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });
+
+export default class App extends PureComponent {
+  state = {
+    list: ds.cloneWithRows(new Array(20).fill({
+      name: '炒鸡好吃的甜甜圈',
+      source: require('../assets/img_01.png'),
+      spec: '25g',
+      price: '￥4.4',
+    })),
+  };
+
+    renderItem = rowData => (
+      <View style={styles.listItem}>
+        <Image style={styles.img} source={rowData.source} />
+        <View style={styles.introduction}>
+          <Text style={styles.name}>{rowData.name}</Text>
+          <Text style={styles.spec}>{`规格：${rowData.spec}`}</Text>
+          <Text style={styles.price}>{rowData.price}</Text>
+        </View>
+        <View style={styles.add}>
+          <Text style={styles.addIcon}>+</Text>
+        </View>
+      </View>
+    );
+
+    render() {
+      return (
+        <View style={styles.container}>
+          <ListView dataSource={this.state.list} renderRow={item => this.renderItem(item)} />
+        </View>
+      );
+    }
+}
+
