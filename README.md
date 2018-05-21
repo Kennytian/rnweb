@@ -1,9 +1,33 @@
+# React Native APP 和 React Native Web 项目
+
 启动项目
-```bash
-$ npm i
-// run Android|ios project
-$ npm start
-// run web project
-$ npm run web
+
+### Step 1
 ```
-更改`src/App.js`来切换demo
+yarn
+```
+
+### Step 2
+```
+yarn start
+```
+
+### Step 3
+> run native app
+
+```
+yarn start android
+```
+
+or
+
+```
+yarn start ios
+```
+
+### Step 4
+> run web app
+
+```
+$ yarn run web
+```

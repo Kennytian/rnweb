@@ -51,7 +51,7 @@ module.exports = {
                         options: {
                             cacheDirectory: true,
                             plugins: [
-                                "react-native-web/babel"
+                                "babel-plugin-react-native-web"
                             ],
                         },
                     },
