@@ -1,10 +1,13 @@
-# React Native APP 和 React Native Web 项目
+## React Native APP and React Native Web in ONE
 
-启动项目
+### Step 0
+```
+git clone https://github.com/Kennytian/rnweb.git
+```
 
 ### Step 1
 ```
-yarn
+cd rnweb && yarn
 ```
 
 ### Step 2
